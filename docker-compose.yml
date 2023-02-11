@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./services/nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - web
+
+    # paste your domain to path
+    volumes:
+      - /etc/letsencrypt/live/your_domain/fullchain.pem:/etc/nginx/ssl_certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/your_domain/privkey.pem:/etc/nginx/ssl_certs/privkey.pem:ro
+  web:
+    build: services/web
+    command: gunicorn --bind 0.0.0.0:5000 main:app
+    env_file: .env
+    volumes:
+      - ./services/web/:/home/app/
+    expose:
+      - 5000
+  bot:
+    build: ./services/bot
+    command: python3 main.py
+    env_file: .env
+    volumes:
+      - ./services/bot/:/home/bot/

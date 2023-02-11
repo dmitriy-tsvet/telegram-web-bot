@@ -1,0 +1,5 @@
+Flask==2.2.2
+gunicorn==20.1.0
+aiogram==2.20
+asgiref==3.6.0
+environs==9.5.0
