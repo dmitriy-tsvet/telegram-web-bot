@@ -9,7 +9,13 @@ services:
       - web
 
     # paste your domain to path
+
+    # use this command once to generate dhparam, and then copy to the container
+    # openssl dhparam -out /etc/ssl/certs/dhparam.pem 4096
+    # or delete this line and change nginx.conf
+
     volumes:
+      - /etc/ssl/certs/dhparam.pem:/etc/nginx/ssl_certs/dhparam.pem:ro
       - /etc/letsencrypt/live/your_domain/fullchain.pem:/etc/nginx/ssl_certs/fullchain.pem:ro
       - /etc/letsencrypt/live/your_domain/privkey.pem:/etc/nginx/ssl_certs/privkey.pem:ro
   web:

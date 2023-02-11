@@ -17,11 +17,10 @@ async def main():
     dp = Dispatcher(bot, storage=storage)
 
     handler.register_handler(dp)
-
+    await admin_notice.send(dp)
     try:
         await dp.skip_updates()     # Don't use this in production
         await dp.start_polling()
-        await admin_notice.send(dp)
     finally:
         await dp.storage.close()
         await dp.storage.wait_closed()
